@@ -43,7 +43,21 @@ function getUrlImage(species) {
 let dinos = dinoData.map((dino) =>Object.assign({...Dino(dino.diet,dino.fact,dino.height,dino.species,dino.weight,dino.when,dino.where)},{image:getUrlImage(dino.species)}) );
 
 // Create Human Object
-
+function Human(
+    humanName,
+    height,
+    weight,
+    diet
+  
+  ) {
+    return Object.assign(
+      {},
+      Creature(height, weight, diet, human),
+      {
+        name:humanName
+      }
+    );
+  }
 // Use IIFE to get human data from form
 
 // Create Dino Compare Method 1
