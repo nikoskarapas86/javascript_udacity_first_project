@@ -1,8 +1,32 @@
 let dinoData = [];
 dinoData = Array.from(data["Dinos"]);
-console.log(dinoData);
 
+// Create Dino Compare Method 1
+function copareWeight(humanWeight) {
+  let difWeight = this.weight - humanWeight;
+  return difWeight > 0
+    ? `${this.species} weighted more than yours `
+    : difWeight == 0
+    ? `${this.species} weights as your weight `
+    : `${this.species} weights less than your weight `;
+}
 
+// Create Dino Compare Method 2
+function compareHeight(humanHeight) {
+  let difheight = this.height - humanHeight;
+  return difheight > 0
+    ? `${this.species} is heigher than your Height `
+    : difheight == 0
+    ? `${this.species} height is like your height `
+    : `${this.species} height is less than yours `;
+}
+
+// Create Dino Compare Method 3
+function compareDiet(humanDiet) {
+  return this.diet == humanDiet
+    ? `both of you are ${this.diet}`
+    : "you have different diets";
+}
 
 function Creature(
   heightOfCreature,
@@ -36,6 +60,10 @@ function Dino(
       when: dinoWhen,
       where: dinoWhere,
       image: dinoSpecies,
+      facts: [dinoFact],
+      copareDinoWeight: copareWeight,
+      compareDinoHeight: compareHeight,
+      compareDinoDiet: compareDiet,
     }
   );
 }
@@ -59,10 +87,11 @@ let dinos = dinoData.map((dino) =>
     { image: getUrlImage(dino.species) }
   )
 );
+console.log(dinos);
 
 // Create Human Object
 function Human(humanName, height, weight, diet) {
-  return Object.assign({}, Creature(height, weight, diet, 'images/human.png'), {
+  return Object.assign({}, Creature(height, weight, diet, "images/human.png"), {
     name: humanName,
   });
 }
@@ -78,19 +107,31 @@ function createHuman() {
     let heightWithInches = parseFloat(getInput("inches"));
     let weight = parseFloat(getInput("weight"));
     let diet = getInput("diet");
-    const height =( heightWithFeet * 12) + heightWithInches;
-    
+    const height = heightWithFeet * 12 + heightWithInches;
+
     return Human(humanName, height, weight, diet);
   })();
 }
-// Create Dino Compare Method 1
-// NOTE: Weight in JSON file is in lbs, height in inches.
 
-// Create Dino Compare Method 2
-// NOTE: Weight in JSON file is in lbs, height in inches.
+function createHTMLDino(species, image, facts) {
+  const dinoDiv = document.createElement("div");
+  dinoDiv.className = "grid-item";
+  // let hforSpacies = document.createElement("p");
+  // hforSpacies.innerText = species;
+  // dinoDiv.appendChild(hforSpacies);
+  let imagebackground = document.createElement("img");
+  imagebackground.src = image;
+  dinoDiv.appendChild(imagebackground);
 
-// Create Dino Compare Method 3
-// NOTE: Weight in JSON file is in lbs, height in inches.
+    let pel = document.createElement("p");
+    pel.innerText = facts[3];
+    dinoDiv.appendChild(pel);
+ 
+  return dinoDiv;
+    
+  }
+
+  
 
 // Generate Tiles for each Dino in Array
 
@@ -99,8 +140,23 @@ function createHuman() {
 // Remove form from screen
 
 // On button click, prepare and display infographic
-document.getElementById("btn")
-    .addEventListener("click", () =>{
-        const human = createHuman();
-        
-        });
+document.getElementById("btn").addEventListener("click", () => {
+  const human = createHuman();
+  dinos.forEach((dino) => {
+    dino.facts.push(dino.compareDinoDiet(human.diet));
+    dino.facts.push(dino.compareDinoHeight(human.height));
+    dino.facts.push(dino.copareDinoWeight(human.weight));
+  });
+  // Remove form from screen
+
+  (document.getElementById("dino-compare").style.display = "none")
+    
+
+dinos.forEach(dino=>{
+
+  let dinoItem = createHTMLDino(dino.species, dino.image, dino.facts);
+  document.getElementById("grid").appendChild(dinoItem);
+})
+
+
+});
