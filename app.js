@@ -1,6 +1,9 @@
 let dinoData = [];
 dinoData = Array.from(data["Dinos"]);
-console.log(dinoData)
+console.log(dinoData);
+
+
+
 function Creature(
   heightOfCreature,
   weightOfCreature,
@@ -40,26 +43,46 @@ function Dino(
 function getUrlImage(species) {
   return "images/" + species.toLowerCase() + ".png";
 }
-let dinos = dinoData.map((dino) =>Object.assign({...Dino(dino.diet,dino.fact,dino.height,dino.species,dino.weight,dino.when,dino.where)},{image:getUrlImage(dino.species)}) );
+let dinos = dinoData.map((dino) =>
+  Object.assign(
+    {
+      ...Dino(
+        dino.diet,
+        dino.fact,
+        dino.height,
+        dino.species,
+        dino.weight,
+        dino.when,
+        dino.where
+      ),
+    },
+    { image: getUrlImage(dino.species) }
+  )
+);
 
 // Create Human Object
-function Human(
-    humanName,
-    height,
-    weight,
-    diet
-  
-  ) {
-    return Object.assign(
-      {},
-      Creature(height, weight, diet, human),
-      {
-        name:humanName
-      }
-    );
-  }
-// Use IIFE to get human data from form
+function Human(humanName, height, weight, diet) {
+  return Object.assign({}, Creature(height, weight, diet, 'images/human.png'), {
+    name: humanName,
+  });
+}
 
+function getInput(id) {
+  return document.getElementById(id).value;
+}
+// Use IIFE to get human data from form
+function createHuman() {
+  return (function () {
+    const humanName = getInput("name");
+    let heightWithFeet = parseFloat(getInput("feet"));
+    let heightWithInches = parseFloat(getInput("inches"));
+    let weight = parseFloat(getInput("weight"));
+    let diet = getInput("diet");
+    const height =( heightWithFeet * 12) + heightWithInches;
+    
+    return Human(humanName, height, weight, diet);
+  })();
+}
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 
@@ -76,3 +99,8 @@ function Human(
 // Remove form from screen
 
 // On button click, prepare and display infographic
+document.getElementById("btn")
+    .addEventListener("click", () =>{
+        const human = createHuman();
+        
+        });
