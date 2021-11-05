@@ -122,15 +122,13 @@ function createHTMLCreature(species, image, facts) {
   let imagebackground = document.createElement("img");
   imagebackground.src = image;
   dinoDiv.appendChild(imagebackground);
+  console.log(+Math.floor(Math.random() * 3));
+  let pel = document.createElement("p");
+  pel.innerText = facts ? facts[+Math.floor(Math.random() * 3)] : species;
+  dinoDiv.appendChild(pel);
 
-    let pel = document.createElement("p");
-    pel.innerText = facts[Math.floor(Math.random() * 3)];
-    dinoDiv.appendChild(pel);
- 
   return dinoDiv;
-    
-  }
- 
+}
 
 // Generate Tiles for each Dino in Array
 
@@ -148,16 +146,17 @@ document.getElementById("btn").addEventListener("click", () => {
   });
   // Remove form from screen
 
-  (document.getElementById("dino-compare").style.display = "none")
-    
+  document.getElementById("dino-compare").style.display = "none";
 
-dinos.forEach(dino=>{
+  dinos.forEach((dino, index) => {
+    if (index == 4) {
+      let humanElement = createHTMLCreature(human.name, human.image);
+      document.getElementById("grid").appendChild(humanElement);
+    } else {
+      let dinoItem = createHTMLCreature(dino.species, dino.image, dino.facts);
+      document.getElementById("grid").appendChild(dinoItem);
+    }
+  });
 
-  let dinoItem = createHTMLCreature(dino.species, dino.image, dino.facts);
-  document.getElementById("grid").appendChild(dinoItem);
-  let humanElement = createHTMLCreature(human.species, human.image);
-  document.getElementById("grid").appendChild(humanElement);
-})
-
-
+  console.log(dinos);
 });
