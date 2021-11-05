@@ -113,7 +113,7 @@ function createHuman() {
   })();
 }
 
-function createHTMLDino(species, image, facts) {
+function createHTMLCreature(species, image, facts) {
   const dinoDiv = document.createElement("div");
   dinoDiv.className = "grid-item";
   // let hforSpacies = document.createElement("p");
@@ -124,14 +124,13 @@ function createHTMLDino(species, image, facts) {
   dinoDiv.appendChild(imagebackground);
 
     let pel = document.createElement("p");
-    pel.innerText = facts[3];
+    pel.innerText = facts[Math.floor(Math.random() * 3)];
     dinoDiv.appendChild(pel);
  
   return dinoDiv;
     
   }
-
-  
+ 
 
 // Generate Tiles for each Dino in Array
 
@@ -154,8 +153,10 @@ document.getElementById("btn").addEventListener("click", () => {
 
 dinos.forEach(dino=>{
 
-  let dinoItem = createHTMLDino(dino.species, dino.image, dino.facts);
+  let dinoItem = createHTMLCreature(dino.species, dino.image, dino.facts);
   document.getElementById("grid").appendChild(dinoItem);
+  let humanElement = createHTMLCreature(human.species, human.image);
+  document.getElementById("grid").appendChild(humanElement);
 })
 
 
